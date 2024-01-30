@@ -1,0 +1,17 @@
+{
+  "name": "android_github_mac_ubuntu",
+  "type": "module",
+  "scripts": {
+    "wdio": "wdio run ./wdio.conf.js",
+    "copy_apk": "bash copyApk.sh"
+  },
+  "devDependencies": {
+    "@wdio/appium-service": "^8.29.1",
+    "@wdio/cli": "^8.29.1",
+    "@wdio/local-runner": "^8.29.2",
+    "@wdio/mocha-framework": "^8.29.1",
+    "@wdio/spec-reporter": "^8.29.1",
+    "appium-uiautomator2-driver": "^2.43.4"
+  }
+}
+

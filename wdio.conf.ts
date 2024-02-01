@@ -27,7 +27,7 @@ export const config: Options.Testrunner = {
     },
   ],
 
-  logLevel: 'info',
+  logLevel: 'warn',
 
   bail: 0,
 
@@ -43,7 +43,18 @@ export const config: Options.Testrunner = {
 
   framework: 'mocha',
 
-  reporters: ['spec'],
+  reporters: [
+    [
+      'spec',
+      {
+        realtimeReporting: true,
+        symbols: {
+          passed: '[PASS]',
+          failed: '[FAIL]',
+        },
+      },
+    ],
+  ],
 
   mochaOpts: {
     ui: 'bdd',

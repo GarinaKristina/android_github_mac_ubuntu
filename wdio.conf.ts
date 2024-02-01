@@ -1,15 +1,26 @@
-export const config = {
+import type { Options } from '@wdio/types';
+export const config: Options.Testrunner = {
   runner: 'local',
+  autoCompileOpts: {
+    autoCompile: true,
+    tsNodeOpts: {
+      project: './tsconfig.json',
+      transpileOnly: true,
+    },
+  },
+
   port: 4723,
-  specs: ['./test/specs/**/*.js'],
+
+  specs: ['./test/specs/**/*.ts'],
+
+  exclude: [],
 
   maxInstances: 10,
 
   capabilities: [
     {
       platformName: 'Android',
-      browserName: 'Chrome',
-      'appium:deviceName': 'Pixel 2 API 30',
+      'appium:deviceName': 'nightwatch-android-11',
       'appium:platformVersion': '11.0',
       'appium:automationName': 'UiAutomator2',
       'appium:app': 'app/android/app-release.apk',
@@ -17,6 +28,8 @@ export const config = {
   ],
 
   logLevel: 'info',
+
+  bail: 0,
 
   baseUrl: '',
 

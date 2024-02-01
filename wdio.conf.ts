@@ -1,4 +1,6 @@
 import type { Options } from '@wdio/types';
+import allure from 'allure-commandline';
+
 export const config: Options.Testrunner = {
   runner: 'local',
   autoCompileOpts: {
@@ -54,11 +56,38 @@ export const config: Options.Testrunner = {
         },
       },
     ],
+    [
+      'allure',
+      {
+        outputDir: './artifacts/allure/source',
+        disableWebdriverStepsReporting: true,
+        disableWebdriverScreenshotsReporting: false,
+      },
+    ],
   ],
 
   mochaOpts: {
     ui: 'bdd',
     timeout: 60000,
+  },
+
+  async onComplete() {
+    const reportError = new Error('Could not generate Allure report');
+    const generation = allure(['generate', './artifacts/allure/source', '-c', '-o', './artifacts/allure/report']);
+    return new Promise<void>((resolve, reject) => {
+      const generationTimeout = setTimeout(() => reject(reportError), 5000);
+
+      generation.on('exit', function (exitCode: number) {
+        clearTimeout(generationTimeout);
+
+        if (exitCode !== 0) {
+          return reject(reportError);
+        }
+
+        console.log('Allure report successfully generated');
+        resolve();
+      });
+    });
   },
 };
 

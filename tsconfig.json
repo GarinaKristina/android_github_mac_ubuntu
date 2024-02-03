@@ -1,25 +1,20 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "target": "es2017",
     "moduleResolution": "node",
-    "baseUrl": "src",
-    "outDir": "./dist",
-    "strictNullChecks": true,
-    "esModuleInterop": true,
+    "module": "ESNext",
+    "target": "es2022",
+    "lib": ["es2022", "dom"],
+    "types": ["node", "@wdio/globals/types", "expect-webdriverio", "@wdio/mocha-framework", "@wdio/appium-service"],
     "skipLibCheck": true,
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
-    "forceConsistentCasingInFileNames": true,
-    "types": ["node", "@wdio/globals/types", "@wdio/mocha-framework"],
-    "paths": {
-      "~/*": ["./*"]
-    }
+    "isolatedModules": true,
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true
   },
-  "exclude": ["node_modules"],
-  "include": ["test/**/**.ts"],
-  "compileOnSave": true,
-  "ts-node": {
-    "require": ["tsconfig-paths/register"]
-  }
+  "include": ["test"]
 }
 

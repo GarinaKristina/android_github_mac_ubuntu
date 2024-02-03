@@ -55,7 +55,6 @@ jobs:
       - name: Install packages
         run: |
           npm ci
-          lsof -ti:4723 | xargs kill
 
       # - name: Copy apk
       #   run: npm run copy_apk

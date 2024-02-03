@@ -72,7 +72,7 @@ export const config: Options.Testrunner = {
   },
 
   async onComplete() {
-    const reportError = new Error('Could not generate Allure report');
+    // const reportError = new Error('Could not generate Allure report');
     const generation = allure(['generate', './artifacts/allure/source', '-c', '-o', './artifacts/allure/report']);
     return new Promise<void>((resolve, reject) => {
       const generationTimeout = setTimeout(() => reject(reportError), 5000);

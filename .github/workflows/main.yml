@@ -28,6 +28,23 @@ jobs:
         run: |
           npm install
 
-      - name: Run start
+      - name: Build apk
         run: |
-          npm run start
+          npm run "android.release"
+
+    test:
+    steps:
+      - name: Checkout Pet project
+        uses: actions/checkout@v4
+
+      - name: Install packages
+        run: |
+          npm ci
+
+      - name: Copy apk
+        run: |
+          npm run copy_apk   
+
+        - name: Run test
+        run: |
+          npm run wdio

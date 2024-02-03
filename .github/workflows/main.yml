@@ -31,20 +31,19 @@ jobs:
       - name: Build apk
         run: |
           npm run "android.release"
-jobs:
+
   test:
+    runs-on: macos-13
+
     steps:
       - name: Checkout Pet project
         uses: actions/checkout@v4
 
       - name: Install packages
-        run: |
-          npm ci
+        run: npm ci
 
       - name: Copy apk
-        run: |
-          npm run copy_apk   
+        run: npm run copy_apk
 
-        - name: Run test
-        run: |
-          npm run wdio
+      - name: Run test
+        run: npm run wdio

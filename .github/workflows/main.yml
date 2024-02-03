@@ -12,7 +12,7 @@ jobs:
       - name: Checkout Pet project
         uses: actions/checkout@v4
         with:
-          repository: '{webdriverio}/{https://github.com/webdriverio/native-demo-app.git}'
+          repository: 'webdriverio/native-demo-app'
 
       - name: Setup env
         uses: actions/setup-node@v4

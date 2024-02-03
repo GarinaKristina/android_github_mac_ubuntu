@@ -31,8 +31,8 @@ jobs:
       - name: Build apk
         run: |
           npm run "android.release"
-
-    test:
+jobs:
+  test:
     steps:
       - name: Checkout Pet project
         uses: actions/checkout@v4

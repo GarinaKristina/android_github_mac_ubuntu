@@ -1,5 +1,4 @@
 import type { Options } from '@wdio/types';
-import allure from 'allure-commandline';
 
 export const config: Options.Testrunner = {
   runner: 'local',
@@ -57,11 +56,11 @@ export const config: Options.Testrunner = {
       },
     ],
     [
-      'allure',
+      'light',
       {
-        outputDir: './artifacts/allure/source',
-        disableWebdriverStepsReporting: true,
-        disableWebdriverScreenshotsReporting: false,
+        outputDir: './Results',
+        outputFile: `demo${new Date()}`, // html report file will be name this
+        addScreenshots: false, // to add screenshots in report make it as true. Default is false
       },
     ],
   ],
@@ -72,22 +71,8 @@ export const config: Options.Testrunner = {
   },
 
   async onComplete() {
-    // const reportError = new Error('Could not generate Allure report');
-    const generation = allure(['generate', './artifacts/allure/source', '-c', '-o', './artifacts/allure/report']);
-    return new Promise<void>((resolve, reject) => {
-      const generationTimeout = setTimeout(() => reject(reportError), 5000);
-
-      generation.on('exit', function (exitCode: number) {
-        clearTimeout(generationTimeout);
-
-        if (exitCode !== 0) {
-          return reject(reportError);
-        }
-
-        console.log('Allure report successfully generated');
-        resolve();
-      });
-    });
+    const mergeResults = require('wdio-light-reporter/src/mergeResults'); //you can add this on top of the file
+    mergeResults('./Results');
   },
 };
 

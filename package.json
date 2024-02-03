@@ -11,7 +11,7 @@
     "@types/mocha": "^10.0.6",
     "@wdio/allure-reporter": "^8.29.3",
     "@wdio/appium-service": "^8.29.4",
-    "@wdio/cli": "^7.19.7",
+    "@wdio/cli": "^8.29.5",
     "@wdio/local-runner": "^8.29.5",
     "@wdio/mocha-framework": "^8.29.3",
     "@wdio/spec-reporter": "^8.29.3",
@@ -20,7 +20,11 @@
     "appium-uiautomator2-driver": "^2.43.4",
     "mocha": "^10.2.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.3.3",
-    "wdio-light-reporter": "^0.2.7"
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "@rpii/wdio-html-reporter-pdf": "^8.0.0",
+    "wdio-html-nice-reporter": "^8.1.4",
+    "wdio-html-reporter": "^1.0.2"
   }
 }

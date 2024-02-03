@@ -1,6 +1,8 @@
-import type { Options } from '@wdio/types';
+import { ReportAggregator, ReportGenerator } from 'wdio-html-nice-reporter';
+import type { HtmlReporterOptions, ReportData } from 'wdio-html-nice-reporter/types';
+let reportAggregator: ReportAggregator;
 
-export const config: Options.Testrunner = {
+export const config: WebdriverIO.Config = {
   runner: 'local',
   autoCompileOpts: {
     autoCompile: true,
@@ -56,11 +58,20 @@ export const config: Options.Testrunner = {
       },
     ],
     [
-      'light',
+      'html-nice',
       {
-        outputDir: './Results',
-        outputFile: `demo${new Date()}`, // html report file will be name this
-        addScreenshots: false, // to add screenshots in report make it as true. Default is false
+        outputDir: './reports/html-reports/',
+        filename: 'report.html',
+        reportTitle: 'Test Report Title',
+        linkScreenshots: true,
+        //to show the report in a browser when done
+        showInBrowser: true,
+        collapseTests: false,
+        reporterOptions: {
+          html: {
+            outFile: './reports/html-reports/**.html',
+          },
+        },
       },
     ],
   ],
@@ -69,10 +80,27 @@ export const config: Options.Testrunner = {
     ui: 'bdd',
     timeout: 60000,
   },
+  async onPrepare(config, capabilities) {
+    console.log('onPrepare: Cleaning and setting up report aggregator...');
+    reportAggregator = new ReportAggregator({
+      outputDir: './reports/html-reports/',
+      filename: 'master-report.html',
+      reportTitle: 'Master Report',
+      browserName: 'Appium',
+      collapseTests: true,
+    });
+    await reportAggregator.clean();
+    console.log('onPrepare: Report aggregator setup complete.');
+  },
 
-  async onComplete() {
-    const mergeResults = require('wdio-light-reporter/src/mergeResults'); //you can add this on top of the file
-    mergeResults('./Results');
+  async onComplete(exitCode, config, capabilities) {
+    console.log('onComplete: Generating report...');
+    try {
+      await reportAggregator.createReport();
+      console.log('onComplete: Report generated successfully.');
+    } catch (error) {
+      console.error('onComplete: Error while generating report:', error);
+    }
   },
 };
 

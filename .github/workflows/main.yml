@@ -62,4 +62,3 @@ jobs:
       - name: Run test
         run: |
           npm run wdio
-          npm run create:allure

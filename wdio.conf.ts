@@ -1,5 +1,5 @@
-import { ReportAggregator, ReportGenerator } from 'wdio-html-nice-reporter';
-import type { HtmlReporterOptions, ReportData } from 'wdio-html-nice-reporter/types';
+import { ReportAggregator } from 'wdio-html-nice-reporter';
+
 let reportAggregator: ReportAggregator;
 
 export const config: WebdriverIO.Config = {
@@ -103,4 +103,3 @@ export const config: WebdriverIO.Config = {
     }
   },
 };
-

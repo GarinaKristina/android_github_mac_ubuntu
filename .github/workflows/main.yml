@@ -1,0 +1,32 @@
+name: Automation tests for Gilexpo
+
+on:
+  pull_request:
+    branches: ['main']
+
+jobs:
+  build:
+    runs-on: macos-13
+
+    steps:
+      - name: Checkout Pet project
+        uses: actions/checkout@v4
+        with:
+          repository: 'https://github.com/webdriverio/native-demo-app.git'
+
+      - name: Setup env
+        uses: actions/setup-node@v4
+        with:
+          node-version: '>=18.x'
+
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+
+      - name: Install packages
+        run: |
+          npm install
+
+      - name: Run start
+        run: |
+          npm run start

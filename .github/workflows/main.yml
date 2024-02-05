@@ -55,7 +55,6 @@ jobs:
       - name: Install packages
         run: |
           npm ci
-          adb uninstall io.appium.uiautomator2.server.test
 
       # - name: Copy apk
       #   run: npm run copy_apk

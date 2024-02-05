@@ -63,7 +63,7 @@ export const config: WebdriverIO.Config = {
         outputDir: './reports/html-reports/',
         filename: 'report.html',
         reportTitle: 'Test Report Title',
-        linkScreenshots: true,
+        linkScreenshots: false,
         //to show the report in a browser when done
         showInBrowser: true,
         collapseTests: false,

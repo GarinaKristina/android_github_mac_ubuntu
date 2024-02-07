@@ -69,21 +69,10 @@ jobs:
     # if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
     steps:
-      # - name: Checkout repository
-      #   uses: actions/checkout@v4
-
-      - name: Get
-        uses: actions/checkout@v4
-        if: always()
-        continue-on-error: true
-        with:
-          ref: gh-pages
-          path: gh-pages
-
       - name: Deploy to GitHub Pages
         if: always()
         uses: peaceiris/actions-gh-pages@v2
         env:
-          # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PUBLISH_BRANCH: gh-pages
           PUBLISH_DIR: ./reports

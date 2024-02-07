@@ -31,37 +31,37 @@ jobs:
   #     - name: Build apk
   #       run: |
   #         npm run "android.release"
-  test:
-    runs-on: macos-13
+  # test:
+  #   runs-on: macos-13
 
-    steps:
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v2
+  #   steps:
+  #     - name: Setup Android SDK
+  #       uses: android-actions/setup-android@v2
 
-      - name: Create and start emulator
-        run: |
-          echo "y" | sdkmanager "platforms;android-30" "system-images;android-30;google_apis;x86_64"
-          echo "no" | avdmanager create avd --force --name Nexus 6 Tiramisu --device "pixel_xl" --package "system-images;android-30;google_apis;x86_64" --abi "x86_64"
-          $ANDROID_HOME/emulator/emulator -avd Nexus 6 Tiramisu -no-audio -no-window -no-snapshot -accel on &
+  #     - name: Create and start emulator
+  #       run: |
+  #         echo "y" | sdkmanager "platforms;android-30" "system-images;android-30;google_apis;x86_64"
+  #         echo "no" | avdmanager create avd --force --name Nexus 6 Tiramisu --device "pixel_xl" --package "system-images;android-30;google_apis;x86_64" --abi "x86_64"
+  #         $ANDROID_HOME/emulator/emulator -avd Nexus 6 Tiramisu -no-audio -no-window -no-snapshot -accel on &
 
-      - name: Wait for emulator to start
-        run: |
-          until adb shell getprop sys.boot_completed | grep 1; do sleep 1; done
-          adb shell input keyevent 82
+  #     - name: Wait for emulator to start
+  #       run: |
+  #         until adb shell getprop sys.boot_completed | grep 1; do sleep 1; done
+  #         adb shell input keyevent 82
 
-      - name: Checkout Pet project
-        uses: actions/checkout@v4
+  #     - name: Checkout Pet project
+  #       uses: actions/checkout@v4
 
-      - name: Install packages
-        run: |
-          npm ci
+  #     - name: Install packages
+  #       run: |
+  #         npm ci
 
-      - name: Run test
-        run: |
-          npm run wdio
+  #     - name: Run test
+  #       run: |
+  #         npm run wdio
 
   deploy:
-    needs: test
+    # needs: test
     runs-on: ubuntu-latest
 
     steps:

@@ -59,8 +59,7 @@ jobs:
   #     - name: Run test
   #       run: |
   #         npm run wdio
-
-  deploy:
+ deploy:
     # needs: test
     runs-on: ubuntu-latest
 

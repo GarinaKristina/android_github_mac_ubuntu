@@ -3,7 +3,7 @@
   "type": "module",
   "scripts": {
     "wdio": "wdio run ./wdio.conf.ts",
-    "create:allure": "allure generate ./artifacts/allure/source -c -o ./artifacts/allure/report",
+    "create:allure": "allure generate ./artifacts/allure/source -o ./artifacts/allure/report && allure open ./artifacts/allure/report",
     "create:open:allure": "allure generate ./artifacts/allure/source -c -o ./artifacts/allure/report && allure open ./artifacts/allure/report",
     "copy_apk": "bash copyApk.sh"
   },

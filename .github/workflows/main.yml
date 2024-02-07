@@ -41,8 +41,8 @@ jobs:
   #   - name: Create and start emulator
   #     run: |
   #       echo "y" | sdkmanager "platforms;android-30" "system-images;android-30;google_apis;x86_64"
-  #       echo "no" | avdmanager create avd --force --name nightwatch-android-11 --device "pixel_xl" --package "system-images;android-30;google_apis;x86_64" --abi "x86_64"
-  #       $ANDROID_HOME/emulator/emulator -avd nightwatch-android-11 -no-audio -no-window -no-snapshot -accel on &
+  #       echo "no" | avdmanager create avd --force --name Nexus 6 Tiramisu --device "pixel_xl" --package "system-images;android-30;google_apis;x86_64" --abi "x86_64"
+  #       $ANDROID_HOME/emulator/emulator -avd Nexus 6 Tiramisu -no-audio -no-window -no-snapshot -accel on &
 
   #   - name: Wait for emulator to start
   #     run: |
@@ -69,17 +69,17 @@ jobs:
     # if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
     steps:
-      - name: Checkout Pet project
-        uses: actions/checkout@v4
+      # - name: Checkout Pet project
+      #   uses: actions/checkout@v4
 
-      - name: Run test
-        run: |
-          ls
+      # - name: Run test
+      #   run: |
+      #     ls
 
-      - name: Deploy to GitHub Pages
-        if: always()
-        uses: peaceiris/actions-gh-pages@v2
-        env:
-          PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PUBLISH_BRANCH: gh-pages
-          PUBLISH_DIR: ./reports
+      # - name: Publish test report
+      #   uses: peaceiris/actions-gh-pages@v3
+      #   if: always()
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     publish_branch: gh-pages
+      #     publish_dir: ./reports

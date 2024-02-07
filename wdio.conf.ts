@@ -1,20 +1,20 @@
-import { ReportAggregator } from 'wdio-html-nice-reporter';
-
+import { ReportAggregator } from "wdio-html-nice-reporter";
+import allure from "allure-commandline";
 let reportAggregator: ReportAggregator;
 
 export const config: WebdriverIO.Config = {
-  runner: 'local',
+  runner: "local",
   autoCompileOpts: {
     autoCompile: true,
     tsNodeOpts: {
-      project: './tsconfig.json',
+      project: "./tsconfig.json",
       transpileOnly: true,
     },
   },
 
   port: 4723,
 
-  specs: ['./test/specs/**/*.ts'],
+  specs: ["./test/specs/**/*.ts"],
 
   exclude: [],
 
@@ -22,19 +22,19 @@ export const config: WebdriverIO.Config = {
 
   capabilities: [
     {
-      platformName: 'Android',
-      'appium:deviceName': 'nightwatch-android-11',
-      'appium:platformVersion': '11.0',
-      'appium:automationName': 'UiAutomator2',
-      'appium:app': 'app/android/app-release.apk',
+      platformName: "Android",
+      "appium:deviceName": "Nexus 6 Tiramisu",
+      "appium:platformVersion": "13.0",
+      "appium:automationName": "UiAutomator2",
+      "appium:app": "app/android/app-release.apk",
     },
   ],
 
-  logLevel: 'warn',
+  logLevel: "warn",
 
   bail: 0,
 
-  baseUrl: '',
+  baseUrl: "",
 
   waitforTimeout: 10000,
 
@@ -42,64 +42,90 @@ export const config: WebdriverIO.Config = {
 
   connectionRetryCount: 3,
 
-  services: ['appium'],
+  services: ["appium"],
 
-  framework: 'mocha',
+  framework: "mocha",
 
   reporters: [
     [
-      'spec',
+      "spec",
       {
         realtimeReporting: true,
         symbols: {
-          passed: '[PASS]',
-          failed: '[FAIL]',
+          passed: "[PASS]",
+          failed: "[FAIL]",
         },
       },
     ],
     [
-      'html-nice',
+      "allure",
       {
-        outputDir: './reports/html-reports/',
-        filename: 'report.html',
-        reportTitle: 'Test Report Title',
-        linkScreenshots: false,
-        //to show the report in a browser when done
-        showInBrowser: true,
-        collapseTests: false,
-        reporterOptions: {
-          html: {
-            outFile: './reports/html-reports/**.html',
-          },
-        },
+        outputDir: "./artifacts/allure/source",
+        disableWebdriverStepsReporting: true,
+        disableWebdriverScreenshotsReporting: false,
       },
     ],
+    // [
+    //   "html-nice",
+    //   {
+    //     outputDir: "./reports/html-reports/",
+    //     filename: "report.html",
+    //     reportTitle: "Test Report Title",
+    //     linkScreenshots: false,
+    //     //to show the report in a browser when done
+    //     showInBrowser: true,
+    //     collapseTests: false,
+    //     reporterOptions: {
+    //       html: {
+    //         outFile: "./reports/html-reports/**.html",
+    //       },
+    //     },
+    //   },
+    // ],
   ],
 
   mochaOpts: {
-    ui: 'bdd',
+    ui: "bdd",
     timeout: 60000,
   },
-  async onPrepare(config, capabilities) {
-    console.log('onPrepare: Cleaning and setting up report aggregator...');
-    reportAggregator = new ReportAggregator({
-      outputDir: './reports/html-reports/',
-      filename: 'master-report.html',
-      reportTitle: 'Master Report',
-      browserName: 'Appium',
-      collapseTests: true,
-    });
-    await reportAggregator.clean();
-    console.log('onPrepare: Report aggregator setup complete.');
-  },
+  // async onPrepare(config, capabilities) {
+  //   console.log("onPrepare: Cleaning and setting up report aggregator...");
+  //   reportAggregator = new ReportAggregator({
+  //     outputDir: "./reports/html-reports/",
+  //     filename: "master-report.html",
+  //     reportTitle: "Master Report",
+  //     browserName: "Appium",
+  //     collapseTests: true,
+  //   });
+  //   await reportAggregator.clean();
+  //   console.log("onPrepare: Report aggregator setup complete.");
+  // },
 
-  async onComplete(exitCode, config, capabilities) {
-    console.log('onComplete: Generating report...');
-    try {
-      await reportAggregator.createReport();
-      console.log('onComplete: Report generated successfully.');
-    } catch (error) {
-      console.error('onComplete: Error while generating report:', error);
-    }
+  async onComplete() {
+    const reportError = new Error("Could not generate Allure report");
+    const generation = allure(["generate", "./artifacts/allure/source", "-c", "-o", "./artifacts/allure/report"]);
+    return new Promise((resolve, reject) => {
+      const generationTimeout = setTimeout(() => reject(reportError), 5000);
+
+      generation.on("exit", function (exitCode: number) {
+        clearTimeout(generationTimeout);
+
+        if (exitCode !== 0) {
+          return reject(reportError);
+        }
+
+        console.log("Allure report successfully generated");
+        resolve("");
+      });
+    });
   },
+  // async onComplete(exitCode, config, capabilities) {
+  //     console.log('onComplete: Generating report...');
+  //     try {
+  //       await reportAggregator.createReport();
+  //       console.log('onComplete: Report generated successfully.');
+  //     } catch (error) {
+  //       console.error('onComplete: Error while generating report:', error);
+  //     }
+  // },
 };

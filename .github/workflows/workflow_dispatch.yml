@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       owner:
-        description: 'Type your name'
+        description: "Type your name"
         required: true
-        default: 'Kris'
+        default: "Kris"
         type: choice
         options:
           - Artem
@@ -18,6 +18,20 @@ jobs:
     runs-on: macos-13
 
     steps:
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
+
+      - name: Create and start emulator
+        run: |
+          echo "y" | sdkmanager "platforms;android-30" "system-images;android-30;google_apis;x86_64"
+          echo "no" | avdmanager create avd --force --name nightwatch-android-11 --device "pixel_xl" --package "system-images;android-30;google_apis;x86_64" --abi "x86_64"
+          $ANDROID_HOME/emulator/emulator -avd nightwatch-android-11 -no-audio -no-window -no-snapshot -accel on &
+
+      - name: Wait for emulator to start
+        run: |
+          until adb shell getprop sys.boot_completed | grep 1; do sleep 1; done
+          adb shell input keyevent 82
+
       - name: Checkout Pet project
         uses: actions/checkout@v4
 
@@ -35,11 +49,6 @@ jobs:
           name: reports
           path: reports
 
-      - name: Download Allure artifacts
-        uses: actions/download-artifact@v2
-        with:
-          name: allure-results
-
       - name: Create Archives
         run: |
           zip -r reports.zip reports
@@ -47,12 +56,12 @@ jobs:
       - name: Send email
         uses: devellany/send-mail@v1.0.2
         with:
-          host: 'smtp.mail.ru'
+          host: "smtp.mail.ru"
           account: ${{secrets.USER_EMAIL}}
           password: ${{secrets.USER_PASSWORD}}
-          sender: 'Kristina Orbacaite'
+          sender: "Kristina Orbacaite"
           from: ${{secrets.USER_EMAIL}}
           subject: Attached are the Allure artifacts
-          body: 'Report after running test by ${{ github.event.inputs.owner }}✔'
+          body: "Report after running test by ${{ github.event.inputs.owner }}✔"
           attachments: '[{"path":reports.zip"}'
           to: ${{secrets.USER_EMAIL}}

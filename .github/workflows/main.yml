@@ -32,7 +32,7 @@ jobs:
   #       run: |
   #         npm run "android.release"
   # test:
-  #   runs-on: macos-13
+  # runs-on: macos-13
 
   # steps:
   #   - name: Setup Android SDK
@@ -69,14 +69,17 @@ jobs:
     # if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
     steps:
+      - name: Checkout Pet project
+        uses: actions/checkout@v4
+
       - name: Run test
         run: |
           ls
 
-      # - name: Deploy to GitHub Pages
-      #   if: always()
-      #   uses: peaceiris/actions-gh-pages@v2
-      #   env:
-      #     PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #     PUBLISH_BRANCH: gh-pages
-      #     PUBLISH_DIR: ./reports
+      - name: Deploy to GitHub Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v2
+        env:
+          PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PUBLISH_BRANCH: gh-pages
+          PUBLISH_DIR: ./reports

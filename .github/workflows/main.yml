@@ -31,50 +31,93 @@ jobs:
   #     - name: Build apk
   #       run: |
   #         npm run "android.release"
-  # test:
-  # runs-on: macos-13
+  test:
+    runs-on: macos-13
 
-  # steps:
-  #   - name: Setup Android SDK
-  #     uses: android-actions/setup-android@v2
+    steps:
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
 
-  #   - name: Create and start emulator
-  #     run: |
-  #       echo "y" | sdkmanager "platforms;android-30" "system-images;android-30;google_apis;x86_64"
-  #       echo "no" | avdmanager create avd --force --name Nexus 6 Tiramisu --device "pixel_xl" --package "system-images;android-30;google_apis;x86_64" --abi "x86_64"
-  #       $ANDROID_HOME/emulator/emulator -avd Nexus 6 Tiramisu -no-audio -no-window -no-snapshot -accel on &
+      - name: Create and start emulator
+        run: |
+          echo "y" | sdkmanager "platforms;android-30" "system-images;android-30;google_apis;x86_64"
+          echo "no" | avdmanager create avd --force --name Nexus 6 Tiramisu --device "pixel_xl" --package "system-images;android-30;google_apis;x86_64" --abi "x86_64"
+          $ANDROID_HOME/emulator/emulator -avd Nexus 6 Tiramisu -no-audio -no-window -no-snapshot -accel on &
 
-  #   - name: Wait for emulator to start
-  #     run: |
-  #       until adb shell getprop sys.boot_completed | grep 1; do sleep 1; done
-  #       adb shell input keyevent 82
+      - name: Wait for emulator to start
+        run: |
+          until adb shell getprop sys.boot_completed | grep 1; do sleep 1; done
+          adb shell input keyevent 82
 
-  #   - name: Checkout Pet project
-  #     uses: actions/checkout@v4
+      - name: Checkout Pet project
+        uses: actions/checkout@v4
 
-  #   - name: Install packages
-  #     run: |
-  #       npm ci
+      - name: Install packages
+        run: |
+          npm ci
 
-  #   # - name: Copy apk
-  #   #   run: npm run copy_apk
+      # - name: Copy apk
+      #   run: npm run copy_apk
 
-  #   - name: Run test
-  #     run: |
-  #       npm run wdio
+      - name: Run test
+        run: |
+          npm run wdio
 
   deploy:
-    # needs: test
+    needs: test
     runs-on: ubuntu-latest
     # if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
     steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: artifacts
+
+      - name: Get Allure history
+        uses: actions/checkout@v4
+        if: always()
+        continue-on-error: true
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      - name: Test marketplace action
+        uses: simple-elf/allure-report-action@master
+        if: always()
+        id: allure-report
+        with:
+          allure_results: build/artifacts/allure/source
+          gh_pages: gh-pages
+          allure_report: build/artifacts/allure/report
+          allure_history: allure-history
+
+      - name: Deploy report to Github Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v2
+        env:
+          PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PUBLISH_BRANCH: gh-pages
+          PUBLISH_DIR: allure-history
+
+      # - name: Build test report
+      #   uses: simple-elf/allure-report-action@v1.7
+      #   if: always()
+      #   with:
+      #     gh_pages: gh-pages
+      #     allure_history: allure-history
+      #     allure_results:
+
+      # - name: Publish test report
+      #   uses: peaceiris/actions-gh-pages@v3
+      #   if: always()
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     publish_branch: gh-pages
+      #     publish_dir: allure-history
+
       # - name: Checkout Pet project
       #   uses: actions/checkout@v4
-
-      # - name: Run test
-      #   run: |
-      #     ls
 
       # - name: Publish test report
       #   uses: peaceiris/actions-gh-pages@v3

@@ -56,9 +56,6 @@ jobs:
         run: |
           npm ci
 
-      # - name: Copy apk
-      #   run: npm run copy_apk
-
       - name: Run test
         run: |
           npm run wdio
@@ -99,30 +96,3 @@ jobs:
           PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PUBLISH_BRANCH: gh-pages
           PUBLISH_DIR: allure-history
-
-      # - name: Build test report
-      #   uses: simple-elf/allure-report-action@v1.7
-      #   if: always()
-      #   with:
-      #     gh_pages: gh-pages
-      #     allure_history: allure-history
-      #     allure_results:
-
-      # - name: Publish test report
-      #   uses: peaceiris/actions-gh-pages@v3
-      #   if: always()
-      #   with:
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
-      #     publish_branch: gh-pages
-      #     publish_dir: allure-history
-
-      # - name: Checkout Pet project
-      #   uses: actions/checkout@v4
-
-      # - name: Publish test report
-      #   uses: peaceiris/actions-gh-pages@v3
-      #   if: always()
-      #   with:
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
-      #     publish_branch: gh-pages
-      #     publish_dir: ./reports

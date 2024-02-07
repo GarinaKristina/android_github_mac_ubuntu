@@ -69,10 +69,14 @@ jobs:
     # if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
     steps:
-      - name: Deploy to GitHub Pages
-        if: always()
-        uses: peaceiris/actions-gh-pages@v2
-        env:
-          PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PUBLISH_BRANCH: gh-pages
-          PUBLISH_DIR: ./reports
+      - name: Run test
+        run: |
+          ls
+
+      # - name: Deploy to GitHub Pages
+      #   if: always()
+      #   uses: peaceiris/actions-gh-pages@v2
+      #   env:
+      #     PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     PUBLISH_BRANCH: gh-pages
+      #     PUBLISH_DIR: ./reports

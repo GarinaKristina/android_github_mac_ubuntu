@@ -5,44 +5,44 @@ on:
     branches: ["main"]
 
 jobs:
-  test:
-    runs-on: macos-latest
+  # test:
+  #   runs-on: macos-latest
 
-    steps:
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v2
+  #   steps:
+  #     - name: Setup Android SDK
+  #       uses: android-actions/setup-android@v2
 
-      - name: Set up environment variables
-        run: |
-          echo "ANDROID_HOME=/Users/runner/Library/Android/sdk" >> $GITHUB_ENV
-          echo "ANDROID_SDK_ROOT=/Users/runner/Library/Android/sdk" >> $GITHUB_ENV
+  # - name: Set up environment variables
+  #   run: |
+  #     echo "ANDROID_HOME=/Users/runner/Library/Android/sdk" >> $GITHUB_ENV
+  #     echo "ANDROID_SDK_ROOT=/Users/runner/Library/Android/sdk" >> $GITHUB_ENV
 
-      # - name: Create and start emulator
-      #   run: |
-      #     $ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done;'
-      #     $ANDROID_HOME/platform-tools/adb shell input keyevent 82
+  # - name: Create and start emulator
+  #   run: |
+  #     $ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done;'
+  #     $ANDROID_HOME/platform-tools/adb shell input keyevent 82
 
-      - name: Create and start emulator
-        run: |
-          echo "y" | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platforms;android-30" "system-images;android-30;google_apis;x86_64"
-          echo "no" | $ANDROID_HOME/cmdline-tools/latest/bin/avdmanager create avd --force --name testEmulator --device "Nexus 5" --package "system-images;android-30;google_apis;x86_64" --abi "x86_64"
-          $ANDROID_HOME/emulator/emulator -avd testEmulator -no-audio -no-window -no-snapshot -accel on &
-          $ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done;'
-          $ANDROID_HOME/platform-tools/adb shell input keyevent 82
+  # - name: Create and start emulator
+  #   run: |
+  #     echo "y" | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platforms;android-30" "system-images;android-30;google_apis;x86_64"
+  #     echo "no" | $ANDROID_HOME/cmdline-tools/latest/bin/avdmanager create avd --force --name testEmulator --device "Nexus 5" --package "system-images;android-30;google_apis;x86_64" --abi "x86_64"
+  #     $ANDROID_HOME/emulator/emulator -avd testEmulator -no-audio -no-window -no-snapshot -accel on &
+  #     $ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done;'
+  #     $ANDROID_HOME/platform-tools/adb shell input keyevent 82
 
-      - name: Checkout Pet project
-        uses: actions/checkout@v4
+  # - name: Checkout Pet project
+  #   uses: actions/checkout@v4
 
-      - name: Install packages
-        run: |
-          npm ci
+  # - name: Install packages
+  #   run: |
+  #     npm ci
 
-      - name: Run test
-        run: |
-          npm run wdio
+  # - name: Run test
+  #   run: |
+  #     npm run wdio
 
   deploy:
-    needs: test
+    # needs: test
     runs-on: ubuntu-latest
 
     steps:

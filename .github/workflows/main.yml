@@ -35,7 +35,7 @@ jobs:
   #     $ANDROID_HOME/platform-tools/adb shell input keyevent 82
 
   # - name: Checkout Pet project
-  #   uses: actions/checkout@v4
+  # uses: actions/checkout@v4
 
   # - name: Install packages
   #   run: |
@@ -54,6 +54,11 @@ jobs:
       #   uses: actions/download-artifact@v2
       #   with:
       #     name: artifacts
+
+      - name: Checkout Pet project
+        uses: actions/checkout@v4
+        with:
+          ref: actions
 
       - name: Get Allure history
         uses: actions/checkout@v4

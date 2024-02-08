@@ -69,7 +69,7 @@ export const config: WebdriverIO.Config = {
       "html-nice",
       {
         outputDir: "./reports/html-reports/",
-        filename: "report.html",
+        filename: "index.html",
         reportTitle: "Test Report Title",
         linkScreenshots: false,
         //to show the report in a browser when done
@@ -93,7 +93,7 @@ export const config: WebdriverIO.Config = {
     reportAggregator = new ReportAggregator({
       outputDir: "./reports/html-reports/",
       filename: "index.html",
-      reportTitle: "Master Report",
+      reportTitle: "Report",
       browserName: "Appium",
       collapseTests: true,
     });

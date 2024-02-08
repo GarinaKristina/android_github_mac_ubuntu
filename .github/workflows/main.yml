@@ -6,24 +6,34 @@ on:
 
 jobs:
   test:
-    runs-on: macos-13
+    runs-on: macos-latest
 
     steps:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2
 
+      - name: Set up environment variables
+        run: |
+          echo "ANDROID_HOME=/Users/runner/Library/Android/sdk" >> $GITHUB_ENV
+          echo "ANDROID_SDK_ROOT=/Users/runner/Library/Android/sdk" >> $GITHUB_ENV
+
       - name: Create and start emulator
         run: |
-          # avdmanager list device
+          $ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done;'    
+          $ANDROID_HOME/platform-tools/adb shell input keyevent 82
 
-          echo "y" | sdkmanager "platforms;android-30" "system-images;android-30;google_apis;x86_64"
-          echo "no" | avdmanager create avd --force --name "Nexus_6_API_30" --device "Nexus 6" --package "system-images;android-30;google_apis;x86_64" --abi "x86_64"
-          $ANDROID_HOME/emulator/emulator -avd Nexus_6_API_30 -no-audio -no-window -no-snapshot -accel on &
+      # - name: Create and start emulator
+      #   run: |
+      #     # avdmanager list device
 
-      - name: Wait for emulator to start
-        run: |
-          until adb shell getprop sys.boot_completed | grep 1; do sleep 1; done
-          adb shell input keyevent 82
+      #     echo "y" | sdkmanager "platforms;android-30" "system-images;android-30;google_apis;x86_64"
+      #     echo "no" | avdmanager create avd --force --name "Nexus_6_API_30" --device "Nexus 6" --package "system-images;android-30;google_apis;x86_64" --abi "x86_64"
+      #     $ANDROID_HOME/emulator/emulator -avd Nexus_6_API_30 -no-audio -no-window -no-snapshot -accel on &
+
+      # - name: Wait for emulator to start
+      #   run: |
+      #     until adb shell getprop sys.boot_completed | grep 1; do sleep 1; done
+      #     adb shell input keyevent 82
 
       - name: Checkout Pet project
         uses: actions/checkout@v4

@@ -92,7 +92,7 @@ export const config: WebdriverIO.Config = {
     console.log("onPrepare: Cleaning and setting up report aggregator...");
     reportAggregator = new ReportAggregator({
       outputDir: "./reports/html-reports/",
-      filename: "master-report.html",
+      filename: "index.html",
       reportTitle: "Master Report",
       browserName: "Appium",
       collapseTests: true,

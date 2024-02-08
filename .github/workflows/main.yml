@@ -14,8 +14,9 @@ jobs:
 
       - name: Create and start emulator
         run: |
+          avdmanager list device
           echo "y" | sdkmanager "platforms;android-30" "system-images;android-30;google_apis;x86_64"
-          echo "no" | avdmanager create avd --force --name Nexus 6 Tiramisu --device "pixel_xl" --package "system-images;android-30;google_apis;x86_64" --abi "x86_64"
+          echo "no" | avdmanager create avd --force --name "Nexus_6_Tiramisu" --device "pixel_xl" --package "system-images;android-30;google_apis;x86_64" --abi "x86_64"
           $ANDROID_HOME/emulator/emulator -avd Nexus 6 Tiramisu -no-audio -no-window -no-snapshot -accel on &
 
       - name: Wait for emulator to start

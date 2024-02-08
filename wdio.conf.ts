@@ -57,75 +57,75 @@ export const config: WebdriverIO.Config = {
         },
       },
     ],
-    [
-      "allure",
-      {
-        outputDir: "./artifacts/allure/source",
-        disableWebdriverStepsReporting: true,
-        disableWebdriverScreenshotsReporting: false,
-      },
-    ],
     // [
-    //   "html-nice",
+    //   "allure",
     //   {
-    //     outputDir: "./reports/html-reports/",
-    //     filename: "report.html",
-    //     reportTitle: "Test Report Title",
-    //     linkScreenshots: false,
-    //     //to show the report in a browser when done
-    //     showInBrowser: true,
-    //     collapseTests: false,
-    //     reporterOptions: {
-    //       html: {
-    //         outFile: "./reports/html-reports/**.html",
-    //       },
-    //     },
+    //     outputDir: "./artifacts/allure/source",
+    //     disableWebdriverStepsReporting: true,
+    //     disableWebdriverScreenshotsReporting: false,
     //   },
     // ],
+    [
+      "html-nice",
+      {
+        outputDir: "./reports/html-reports/",
+        filename: "report.html",
+        reportTitle: "Test Report Title",
+        linkScreenshots: false,
+        //to show the report in a browser when done
+        showInBrowser: true,
+        collapseTests: false,
+        reporterOptions: {
+          html: {
+            outFile: "./reports/html-reports/**.html",
+          },
+        },
+      },
+    ],
   ],
 
   mochaOpts: {
     ui: "bdd",
     timeout: 60000,
   },
-  // async onPrepare(config, capabilities) {
-  //   console.log("onPrepare: Cleaning and setting up report aggregator...");
-  //   reportAggregator = new ReportAggregator({
-  //     outputDir: "./reports/html-reports/",
-  //     filename: "master-report.html",
-  //     reportTitle: "Master Report",
-  //     browserName: "Appium",
-  //     collapseTests: true,
-  //   });
-  //   await reportAggregator.clean();
-  //   console.log("onPrepare: Report aggregator setup complete.");
-  // },
-
-  async onComplete() {
-    const reportError = new Error("Could not generate Allure report");
-    const generation = allure(["generate", "./artifacts/allure/source", "-c", "-o", "./artifacts/allure/report"]);
-    return new Promise((resolve, reject) => {
-      const generationTimeout = setTimeout(() => reject(reportError), 5000);
-
-      generation.on("exit", function (exitCode: number) {
-        clearTimeout(generationTimeout);
-
-        if (exitCode !== 0) {
-          return reject(reportError);
-        }
-
-        console.log("Allure report successfully generated");
-        resolve("");
-      });
+  async onPrepare(config, capabilities) {
+    console.log("onPrepare: Cleaning and setting up report aggregator...");
+    reportAggregator = new ReportAggregator({
+      outputDir: "./reports/html-reports/",
+      filename: "master-report.html",
+      reportTitle: "Master Report",
+      browserName: "Appium",
+      collapseTests: true,
     });
+    await reportAggregator.clean();
+    console.log("onPrepare: Report aggregator setup complete.");
   },
-  // async onComplete(exitCode, config, capabilities) {
-  //     console.log('onComplete: Generating report...');
-  //     try {
-  //       await reportAggregator.createReport();
-  //       console.log('onComplete: Report generated successfully.');
-  //     } catch (error) {
-  //       console.error('onComplete: Error while generating report:', error);
-  //     }
+
+  // async onComplete() {
+  //   const reportError = new Error("Could not generate Allure report");
+  //   const generation = allure(["generate", "./artifacts/allure/source", "-c", "-o", "./artifacts/allure/report"]);
+  //   return new Promise((resolve, reject) => {
+  //     const generationTimeout = setTimeout(() => reject(reportError), 5000);
+
+  //     generation.on("exit", function (exitCode: number) {
+  //       clearTimeout(generationTimeout);
+
+  //       if (exitCode !== 0) {
+  //         return reject(reportError);
+  //       }
+
+  //       console.log("Allure report successfully generated");
+  //       resolve("");
+  //     });
+  //   });
   // },
+  async onComplete(exitCode, config, capabilities) {
+    console.log("onComplete: Generating report...");
+    try {
+      await reportAggregator.createReport();
+      console.log("onComplete: Report generated successfully.");
+    } catch (error) {
+      console.error("onComplete: Error while generating report:", error);
+    }
+  },
 };

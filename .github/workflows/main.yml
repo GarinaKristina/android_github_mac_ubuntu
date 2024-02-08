@@ -4,6 +4,10 @@ on:
   pull_request:
     branches: ["main"]
 
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
 jobs:
   # test:
   #   runs-on: macos-latest
@@ -46,10 +50,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Download artifacts
-        uses: actions/download-artifact@v2
-        with:
-          name: artifacts
+      # - name: Download artifacts
+      #   uses: actions/download-artifact@v2
+      #   with:
+      #     name: artifacts
 
       - name: Get Allure history
         uses: actions/checkout@v4

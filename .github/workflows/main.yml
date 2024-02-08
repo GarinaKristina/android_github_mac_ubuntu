@@ -32,12 +32,12 @@ jobs:
         run: |
           npm ci
 
-  #     - name: Run test
-  #       run: |
-  #         npm run wdio
+      - name: Run test
+        run: |
+          npm run wdio
 
   deploy:
-    # needs: test
+    needs: test
     runs-on: ubuntu-latest
 
     steps:

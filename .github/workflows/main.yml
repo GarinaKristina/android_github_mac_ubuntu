@@ -43,8 +43,8 @@ jobs:
           cd demo_app
           ls
 
-      # - name: Install application packages
-      #   run: npm install
+      - name: Install application packages
+        run: npm install
 
       # - name: Build apk
       #   run: |

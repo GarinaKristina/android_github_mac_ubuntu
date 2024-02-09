@@ -46,7 +46,7 @@ jobs:
 
       - name: Build apk
         run: |
-          ls
+          cd demo_app
           npm run "android.release"
 
       # - name: where build apk

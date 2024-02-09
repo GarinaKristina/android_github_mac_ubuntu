@@ -24,7 +24,7 @@ export const config: WebdriverIO.Config = {
     {
       platformName: "Android",
       "appium:deviceName": "nexus",
-      "appium:platformVersion": "11.0",
+      "appium:platformVersion": "13.0",
       "appium:automationName": "UiAutomator2",
       "appium:app": "app/android/app-release.apk",
     },

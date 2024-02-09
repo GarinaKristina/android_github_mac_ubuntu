@@ -39,6 +39,8 @@ jobs:
 
       - name: Checkout Pet project
         uses: actions/checkout@v4
+        with:
+          ref: actions
 
       - name: Install packages
         run: |

@@ -38,10 +38,11 @@ jobs:
           distribution: "adopt-hotspot"
           java-version: "17"
 
+      - name: Go to app repo folder
+        run: cd demo_app
+
       - name: Install application packages
-        run: |
-          cd demo_app
-          npm install
+        run: npm ci
 
       - name: Build apk
         run: |
@@ -60,10 +61,11 @@ jobs:
           ref: actions
           path: tests
 
+      - name: Go to test repo folder
+        run: cd tests
+
       - name: Install packages
-        run: |
-          cd tests
-          npm ci
+        run: npm ci
 
       - name: Copy apk
         run: |

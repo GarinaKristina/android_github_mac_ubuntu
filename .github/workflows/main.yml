@@ -60,7 +60,11 @@ jobs:
 
       - name: Copy apk
         run: |
-          npm run copy_apk
+          npm run "copy_ci_apk"
+
+      - name: Where apk
+        run: |
+          find ~ -type f -name "app-release.apk"
 
       - name: Add avdmanager and sdkmanager to system PATH
         run: |

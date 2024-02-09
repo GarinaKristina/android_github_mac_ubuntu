@@ -42,7 +42,7 @@ jobs:
       #   run: cd demo_app
 
       - name: Install application packages
-        run: npm ci
+        run: npm install
 
       - name: Build apk
         run: |

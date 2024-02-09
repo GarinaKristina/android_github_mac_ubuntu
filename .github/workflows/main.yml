@@ -49,7 +49,7 @@ jobs:
       - name: where build apk
         run: |
           cd
-          cd /Users/runner/work/android_github_mac_ubuntu/android_github_mac_ubuntu/demo_app/android/
+          cd /Users/runner/work/android_github_mac_ubuntu/android_github_mac_ubuntu/demo_app/android/app
           ls
 
       - name: Cloning automation tests
@@ -70,7 +70,7 @@ jobs:
       - name: Where apk
         run: |
           cd
-          cd /Users/runner/work/android_github_mac_ubuntu/android_github_mac_ubuntu/tests/app
+          cd /Users/runner/work/android_github_mac_ubuntu/android_github_mac_ubuntu/tests/
           ls
 
       # - name: Add avdmanager and sdkmanager to system PATH

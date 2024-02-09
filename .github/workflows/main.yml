@@ -60,15 +60,15 @@ jobs:
       #   run: |
       #     npm ci
 
-      # - name: Copy apk
-      #   run: |
-      #     npm run "copy_ci_apk"
+      - name: Copy apk
+        run: |
+          npm run "copy_ci_apk"
 
       - name: Where apk
         run: |
           # find ~ -type f -name "app-release.apk"
           cd
-          cd /Users/runner/work/android_github_mac_ubuntu/android_github_mac_ubuntu/app/android/app-release.apk
+          cd /Users/runner/work/android_github_mac_ubuntu/android_github_mac_ubuntu/app/android/
           ls
 
       # - name: Add avdmanager and sdkmanager to system PATH

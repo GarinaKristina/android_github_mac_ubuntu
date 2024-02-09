@@ -23,8 +23,8 @@ export const config: WebdriverIO.Config = {
   capabilities: [
     {
       platformName: "Android",
-      "appium:deviceName": "Nexus 6 Tiramisu",
-      "appium:platformVersion": "13.0",
+      "appium:deviceName": "nexus",
+      "appium:platformVersion": "11.0",
       "appium:automationName": "UiAutomator2",
       "appium:app": "app/android/app-release.apk",
     },

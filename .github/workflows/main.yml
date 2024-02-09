@@ -67,7 +67,7 @@ jobs:
 
       - name: Run test
         run: |
-          ls
+          adb uninstall io.appium.uiautomator2.server.test
           npm run wdio
           ls
 

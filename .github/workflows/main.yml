@@ -49,11 +49,12 @@ jobs:
       - name: where build apk
         run: |
           cd
-          cd /Users/runner/work/android_github_mac_ubuntu/android_github_mac_ubuntu/native-demo-app/android/app/build/outputs/apk/release/
+          cd /Users/runner/work/android_github_mac_ubuntu/android_github_mac_ubuntu/native-demo-app/android/
           ls
 
       - name: Cloning automation tests
         uses: actions/checkout@v4
+        if: always()
         with:
           ref: actions
           path: automation-tests

@@ -37,28 +37,32 @@ jobs:
           distribution: "adopt-hotspot"
           java-version: "17"
 
-      # - name: Install application packages
-      #   run: |
-      #     npm install
+      - name: Install application packages
+        run: |
+          npm install
 
-      # - name: where
-      #   run: |
-      #     cd
-      #     cd /Users/runner/work/android_github_mac_ubuntu/android_github_mac_ubuntu/android/app/build/outputs/apk/release/app-release.apk
-      #     ls
+      - name: Build apk
+        run: |
+          npm run "android.release"
 
-      # - name: Build apk
-      #   run: |
-      #     npm run "android.release"
+      - name: where
+        run: |
+          cd
+          cd /Users/runner/work/android_github_mac_ubuntu/android_github_mac_ubuntu/android/app/build/outputs/apk/
+          ls
+
+          cd
+          cd /Users/runner/work/android_github_mac_ubuntu/android_github_mac_ubuntu/android/app/build/outputs/apk/release/
+          ls
 
       - name: Cloning automation tests
         uses: actions/checkout@v4
         with:
           ref: actions
 
-      # - name: Install packages
-      #   run: |
-      #     npm ci
+      - name: Install packages
+        run: |
+          npm ci
 
       - name: Copy apk
         run: |
@@ -66,7 +70,6 @@ jobs:
 
       - name: Where apk
         run: |
-          # find ~ -type f -name "app-release.apk"
           cd
           cd /Users/runner/work/android_github_mac_ubuntu/android_github_mac_ubuntu/app/android/
           ls

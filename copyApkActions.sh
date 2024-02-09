@@ -7,7 +7,8 @@ NC='\033[0m' # No Color
 
 SOURCE="/Users/runner/work/android_github_mac_ubuntu/android_github_mac_ubuntu/android/app/build/outputs/apk/release/app-release.apk"
 DESTINATION="/Users/runner/work/android_github_mac_ubuntu/android_github_mac_ubuntu/app/android"
-
+echo $SOURCE
+echo $DESTINATION
 echo -e "${GREEN}Copying apk...${NC}"
 
 # Создаем целевую директорию, если она не существует

@@ -38,20 +38,16 @@ jobs:
           repository: "webdriverio/native-demo-app"
           path: demo_app
 
-      - name: Go to app repo folder
+      - name: Install application packages
         run: |
           cd demo_app
           ls
-          # npm install
-
-      - name: Install application packages
-        run: |
-          ls
           npm install
 
-      # - name: Build apk
-      #   run: |
-      #     npm run "android.release"
+      - name: Build apk
+        run: |
+          ls
+          npm run "android.release"
 
       # - name: where build apk
       #   run: |

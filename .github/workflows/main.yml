@@ -28,28 +28,28 @@ jobs:
           repository: "webdriverio/native-demo-app"
           path: demo_app
 
-      # - name: Setup env
-      #   uses: actions/setup-node@v4
-      #   with:
-      #     node-version: ">=18.x"
+      - name: Setup env
+        uses: actions/setup-node@v4
+        with:
+          node-version: ">=18.x"
 
-      # - uses: actions/setup-java@v4
-      #   with:
-      #     distribution: "adopt-hotspot"
-      #     java-version: "17"
+      - uses: actions/setup-java@v4
+        with:
+          distribution: "adopt-hotspot"
+          java-version: "17"
 
-      # - name: Install application packages
-      #   run: |
-      #     npm install
+      - name: Install application packages
+        run: |
+          npm install
 
-      # - name: Build apk
-      #   run: |
-      #     npm run "android.release"
+      - name: Build apk
+        run: |
+          npm run "android.release"
 
       - name: where build apk
         run: |
           cd
-          cd /Users/runner/work/android_github_mac_ubuntu/android_github_mac_ubuntu/demo_app/android/app
+          cd /Users/runner/work/android_github_mac_ubuntu/android_github_mac_ubuntu/demo_app/android/app/build/outputs/apk/release/
           ls
 
       - name: Cloning automation tests
@@ -59,13 +59,13 @@ jobs:
           ref: actions
           path: tests
 
-      # - name: Install packages
-      #   run: |
-      #     npm ci
+      - name: Install packages
+        run: |
+          npm ci
 
-      # - name: Copy apk
-      #   run: |
-      #     npm run "copy_ci_apk"
+      - name: Copy apk
+        run: |
+          npm run "copy_ci_apk"
 
       - name: Where apk
         run: |

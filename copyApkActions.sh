@@ -16,6 +16,6 @@ fi
 
 echo "Creating app directory..."
 mkdir -p $APKDIR
-cp -r /Users/runner/work/android_github_mac_ubuntu/native-demo-app/android/app/build/outputs/apk/release/app-release.apk $APKDIR
+cp -r /Users/runner/work/android_github_mac_ubuntu/android_github_mac_ubuntu/android/app/build/outputs/apk/release/app-release.apk $APKDIR
 
 echo -e "${GREEN}Copy complete.${NC}"

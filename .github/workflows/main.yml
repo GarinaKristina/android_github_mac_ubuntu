@@ -16,81 +16,84 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2
 
-      - name: Set up environment variables
-        run: |
-          echo "ANDROID_HOME=/Users/runner/Library/Android/sdk" >> $GITHUB_ENV
-          echo "ANDROID_SDK_ROOT=/Users/runner/Library/Android/sdk" >> $GITHUB_ENV
-
       - name: Create and start emulator
         run: |
-          $ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done;'
-          $ANDROID_HOME/platform-tools/adb shell input keyevent 82
+          avdmanager list device
 
-      - name: Create and start emulator
-        run: |
-          echo "y" | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platforms;android-30" "system-images;android-30;google_apis;x86_64"
-          echo "no" | $ANDROID_HOME/cmdline-tools/latest/bin/avdmanager create avd --force --name testEmulator --device "Nexus 5" --package "system-images;android-30;google_apis;x86_64" --abi "x86_64"
-          $ANDROID_HOME/emulator/emulator -avd testEmulator -no-audio -no-window -no-snapshot -accel on &
-          $ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done;'
-          $ANDROID_HOME/platform-tools/adb shell input keyevent 82
+      #     echo "y" | sdkmanager "platforms;android-30" "system-images;android-30;google_apis;x86_64"
+      #     echo "no" | avdmanager create avd --force --name Nexus 6 Tiramisu --device "pixel_xl" --package "system-images;android-30;google_apis;x86_64" --abi "x86_64"
+      #     $ANDROID_HOME/emulator/emulator -avd Nexus 6 Tiramisu -no-audio -no-window -no-snapshot -accel on &
 
-      - name: Checkout Pet project
-        uses: actions/checkout@v4
+      # - name: Wait for emulator to start
+      #   run: |
+      #     until adb shell getprop sys.boot_completed | grep 1; do sleep 1; done
+      #     adb shell input keyevent 82
 
-      - name: Install packages
-        run: |
-          npm ci
+      # - name: Create and start emulator НЕ НАДО
+      #   run: |
+      #     echo "y" | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platforms;android-30" "system-images;android-30;google_apis;x86_64"
+      #     echo "no" | $ANDROID_HOME/cmdline-tools/latest/bin/avdmanager create avd --force --name testEmulator --device "Nexus 5" --package "system-images;android-30;google_apis;x86_64" --abi "x86_64"
+      #     $ANDROID_HOME/emulator/emulator -avd testEmulator -no-audio -no-window -no-snapshot -accel on &
+      #     $ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done;'
+      #     $ANDROID_HOME/platform-tools/adb shell input keyevent 82
 
-      - name: Run test
-        run: |
-          npm run wdio
+      # - name: Checkout Pet project
+      #   uses: actions/checkout@v4
 
-  deploy:
-    needs: test
-    runs-on: ubuntu-latest
+      # - name: Install packages
+      #   run: |
+      #     npm ci
 
-    steps:
-      - name: Checkout Pet project
-        uses: actions/checkout@v4
-        with:
-          ref: actions
+      # - name: Run test
+      #   run: |
+      #     npm run wdio
 
-      - name: Get Allure history
-        uses: actions/checkout@v4
-        if: always()
-        continue-on-error: true
-        with:
-          ref: gh-pages
-          path: gh-pages
+  # deploy:
+  #   needs: test
+  #   runs-on: ubuntu-latest
 
-      # - name: Test marketplace action
-      #   uses: simple-elf/allure-report-action@master
-      #   if: always()
-      #   # id: allure-report
-      #   with:
-      #     allure_results: build/artifacts/allure/source
-      #     gh_pages: gh-pages
-      #     allure_report: build/artifacts/allure/report
-      #     allure_history: allure-history
+  #   steps:
+  #     - name: Checkout Pet project
+  #       uses: actions/checkout@v4
+  #       with:
+  #         ref: actions
 
-      # - name: Deploy report to Github Pages
-      #   if: always()
-      #   uses: peaceiris/actions-gh-pages@v2
-      #   env:
-      #     PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #     PUBLISH_BRANCH: gh-pages
-      #     PUBLISH_DIR: artifacts
-      # - name: Test marketplace action
-      #   uses: simple-elf/allure-report-action@master
-      #   if: always()
-      #   id: allure-report
-      #   with:
-      #     allure_results: build/artifacts/allure/source
-      #     gh_pages: gh-pages
-      #     allure_report: build/artifacts/allure/report
-      #     allure_history: allure-history
+  #     - name: Get Allure history
+  #       uses: actions/checkout@v4
+  #       if: always()
+  #       continue-on-error: true
+  #       with:
+  #         ref: gh-pages
+  #         path: gh-pages
 
-      - name: Deploy 🚀  THIS WORK
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          folder: reports
+  # - name: Test marketplace action
+  #   uses: simple-elf/allure-report-action@master
+  #   if: always()
+  #   # id: allure-report
+  #   with:
+  #     allure_results: build/artifacts/allure/source
+  #     gh_pages: gh-pages
+  #     allure_report: build/artifacts/allure/report
+  #     allure_history: allure-history
+
+  # - name: Deploy report to Github Pages
+  #   if: always()
+  #   uses: peaceiris/actions-gh-pages@v2
+  #   env:
+  #     PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #     PUBLISH_BRANCH: gh-pages
+  #     PUBLISH_DIR: artifacts
+  # - name: Test marketplace action
+  #   uses: simple-elf/allure-report-action@master
+  #   if: always()
+  #   id: allure-report
+  #   with:
+  #     allure_results: build/artifacts/allure/source
+  #     gh_pages: gh-pages
+  #     allure_report: build/artifacts/allure/report
+  #     allure_history: allure-history
+
+  # - name: Deploy 🚀  THIS WORK
+  #   uses: JamesIves/github-pages-deploy-action@v4
+  #   with:
+  #     folder: reports

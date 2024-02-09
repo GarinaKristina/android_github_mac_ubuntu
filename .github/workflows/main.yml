@@ -44,7 +44,7 @@ jobs:
       - name: where
         run: |
           cd
-          cd /Users/runner/
+          cd /Users/runner/work
           ls
 
       # - name: Build apk

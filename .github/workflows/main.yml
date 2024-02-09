@@ -68,7 +68,7 @@ jobs:
         run: |
           # find ~ -type f -name "app-release.apk"
           cd
-          cd /Users/runner/work/android_github_mac_ubuntu/android_github_mac_ubuntu
+          cd /Users/runner/work/android_github_mac_ubuntu/android_github_mac_ubuntu/app/android/app-release.apk
           ls
 
       # - name: Add avdmanager and sdkmanager to system PATH

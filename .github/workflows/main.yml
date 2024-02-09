@@ -93,6 +93,7 @@ jobs:
 
       - name: Launch emulator
         run: |
+          cd tests
           chmod +x ./start_emu_headless.sh
           EMULATOR_TIMEOUT=$EMULATOR_TIMEOUT EMULATOR_NAME=$EMULATOR_NAME ./start_emu_headless.sh
 
@@ -106,4 +107,4 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4
         if: always()
         with:
-          folder: reports
+          folder: ./tests/reports

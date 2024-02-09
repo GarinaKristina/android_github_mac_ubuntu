@@ -22,32 +22,32 @@ jobs:
   test:
     runs-on: macos-13
     steps:
-      # - name: Setup env
-      #   uses: actions/setup-node@v4
+      # # - name: Setup env
+      # #   uses: actions/setup-node@v4
+      # #   with:
+      # #     node-version: ">=18.x"
+
+      # # - uses: actions/setup-java@v4
+      # #   with:
+      # #     distribution: "adopt-hotspot"
+      # #     java-version: "17"
+
+      # - name: Clone repo with application
+      #   uses: actions/checkout@v4
       #   with:
-      #     node-version: ">=18.x"
+      #     repository: "webdriverio/native-demo-app"
+      #     path: demo_app
 
-      # - uses: actions/setup-java@v4
-      #   with:
-      #     distribution: "adopt-hotspot"
-      #     java-version: "17"
+      # - name: Install application packages
+      #   run: |
+      #     cd demo_app
+      #     ls
+      #     npm install
 
-      - name: Clone repo with application
-        uses: actions/checkout@v4
-        with:
-          repository: "webdriverio/native-demo-app"
-          path: demo_app
-
-      - name: Install application packages
-        run: |
-          cd demo_app
-          ls
-          npm install
-
-      - name: Build apk
-        run: |
-          cd demo_app
-          npm run "android.release"
+      # - name: Build apk
+      #   run: |
+      #     cd demo_app
+      #     npm run "android.release"
 
       # - name: where build apk
       #   run: |
@@ -55,21 +55,27 @@ jobs:
       #     cd /Users/runner/work/android_github_mac_ubuntu/android_github_mac_ubuntu/demo_app/android/app/build/outputs/apk/release/
       #     ls
 
-      # - name: Cloning automation tests
-      #   uses: actions/checkout@v4
-      #   if: always()
-      #   with:
-      #     ref: actions
-      #     path: tests
+      - name: Cloning automation tests
+        uses: actions/checkout@v4
+        if: always()
+        with:
+          ref: actions
+          path: tests
 
-      # - name: Go to test repo folder
-      #   run: cd tests
+      - name: Go to test repo folder
+        run: |
+          cd tests
+          ls
 
-      # - name: Install packages
-      #   run: npm ci
+      - name: Install packages
+        run: |
+          cd tests
+          ls
+          npm ci
 
-      # - name: Copy apk
-      #   run: |
+      - name: Copy apk
+        run: |
+          ls
       #     npm run "copy_ci_apk"
 
       # - name: Where apk

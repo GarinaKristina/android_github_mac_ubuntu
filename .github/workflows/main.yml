@@ -40,6 +40,7 @@ jobs:
 
       - name: Install application packages
         run: |
+          cd demo_app
           npm install
 
       - name: Build apk
@@ -61,6 +62,7 @@ jobs:
 
       - name: Install packages
         run: |
+          cd tests
           npm ci
 
       - name: Copy apk

@@ -22,21 +22,28 @@ jobs:
   test:
     runs-on: macos-13
     steps:
-      # - name: Setup Android SDK
-      #   uses: android-actions/setup-android@v2
+      - name: Clone repo with application
+        uses: actions/checkout@v4
+        with:
+          repository: "webdriverio/native-demo-app"
 
-      # - name: Create and start emulator
-      #   run: |
-      #     # avdmanager list device
+      - name: Setup env
+        uses: actions/setup-node@v4
+        with:
+          node-version: ">=18.x"
 
-      #     echo "y" | sdkmanager "platforms;android-30" "system-images;android-30;google_apis;x86_64"
-      #     echo "no" | avdmanager create avd --force --name nexus --device "pixel_xl" --package "system-images;android-30;google_apis;x86_64" --abi "x86_64"
-      #     $ANDROID_HOME/emulator/emulator -avd nexus -no-audio -no-window -no-snapshot -accel on &
+      - uses: actions/setup-java@v4
+        with:
+          distribution: "adopt-hotspot"
+          java-version: "17"
 
-      # - name: Wait for emulator to start
-      #   run: |
-      #     until adb shell getprop sys.boot_completed | grep 1; do sleep 1; done
-      #     adb shell input keyevent 82
+      - name: Install packages
+        run: |
+          npm install
+
+      - name: Build apk
+        run: |
+          npm run "android.release"
 
       - name: Checkout Pet project
         uses: actions/checkout@v4
@@ -46,6 +53,10 @@ jobs:
       - name: Install packages
         run: |
           npm ci
+
+      - name: Copy apk
+        run: |
+          npm run copy_apk
 
       - name: Add avdmanager and sdkmanager to system PATH
         run: |
@@ -67,26 +78,8 @@ jobs:
 
       - name: Run test
         run: |
-          adb uninstall io.appium.uiautomator2.server.test
           npm run wdio
           ls
-
-      # - name: Checkout Pet project
-      #   uses: actions/checkout@v4
-      #   with:
-      #     ref: actions
-
-      # - name: Run ls
-      #   run: |
-      #     ls
-
-      # - name: Get Allure history
-      #   uses: actions/checkout@v4
-      #   if: always()
-      #   continue-on-error: true
-      #   with:
-      #     ref: gh-pages
-      #     path: gh-pages
 
       - name: Deploy 🚀  THIS WORK
         uses: JamesIves/github-pages-deploy-action@v4

@@ -10,7 +10,7 @@ permissions:
   pull-requests: write
 jobs:
   test:
-    runs-on: macos-latest
+    runs-on: macos-13
 
     steps:
       - name: Setup Android SDK

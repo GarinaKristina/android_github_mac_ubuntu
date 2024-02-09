@@ -42,10 +42,12 @@ jobs:
         run: |
           cd demo_app
           ls
-          npm install
+          # npm install
 
-      # - name: Install application packages
-      #   run: npm install
+      - name: Install application packages
+        run: |
+          ls
+          npm install
 
       # - name: Build apk
       #   run: |

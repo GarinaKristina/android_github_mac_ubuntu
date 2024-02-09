@@ -69,6 +69,7 @@ jobs:
 
       - name: Copy apk
         run: |
+          cd tests
           npm run "copy_ci_apk"
 
       # - name: Where apk

@@ -26,52 +26,50 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: "webdriverio/native-demo-app"
+          path: native-demo-app
 
-      - name: Setup env
-        uses: actions/setup-node@v4
-        with:
-          node-version: ">=18.x"
+      # - name: Setup env
+      #   uses: actions/setup-node@v4
+      #   with:
+      #     node-version: ">=18.x"
 
-      - uses: actions/setup-java@v4
-        with:
-          distribution: "adopt-hotspot"
-          java-version: "17"
+      # - uses: actions/setup-java@v4
+      #   with:
+      #     distribution: "adopt-hotspot"
+      #     java-version: "17"
 
-      - name: Install application packages
-        run: |
-          npm install
+      # - name: Install application packages
+      #   run: |
+      #     npm install
 
-      - name: Build apk
-        run: |
-          npm run "android.release"
+      # - name: Build apk
+      #   run: |
+      #     npm run "android.release"
 
-      - name: where
+      - name: where build apk
         run: |
           cd
-          cd /Users/runner/work/android_github_mac_ubuntu/android_github_mac_ubuntu/android/app/build/outputs/apk/
-          ls
-
-          cd
-          cd /Users/runner/work/android_github_mac_ubuntu/android_github_mac_ubuntu/android/app/build/outputs/apk/release/
+          cd /Users/runner/work/android_github_mac_ubuntu/
           ls
 
       - name: Cloning automation tests
         uses: actions/checkout@v4
         with:
           ref: actions
+          path: automation-tests
 
-      - name: Install packages
-        run: |
-          npm ci
+      # - name: Install packages
+      #   run: |
+      #     npm ci
 
-      - name: Copy apk
-        run: |
-          npm run "copy_ci_apk"
+      # - name: Copy apk
+      #   run: |
+      #     npm run "copy_ci_apk"
 
       - name: Where apk
         run: |
           cd
-          cd /Users/runner/work/android_github_mac_ubuntu/android_github_mac_ubuntu/app/android/
+          cd /Users/runner/work/android_github_mac_ubuntu/android_github_mac_ubuntu/
           ls
 
       # - name: Add avdmanager and sdkmanager to system PATH

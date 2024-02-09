@@ -37,7 +37,7 @@ jobs:
           distribution: "adopt-hotspot"
           java-version: "17"
 
-      - name: Install packages
+      - name: Install application packages
         run: |
           npm install
 
@@ -45,7 +45,11 @@ jobs:
         run: |
           npm run "android.release"
 
-      - name: Checkout Pet project
+      - name: Where apk
+        run: |
+          find ~ -type f -name "app-release.apk"
+
+      - name: Cloning automation tests
         uses: actions/checkout@v4
         with:
           ref: actions
@@ -83,5 +87,6 @@ jobs:
 
       - name: Deploy 🚀  THIS WORK
         uses: JamesIves/github-pages-deploy-action@v4
+        if: always()
         with:
           folder: reports

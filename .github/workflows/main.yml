@@ -68,23 +68,23 @@ jobs:
           ref: gh-pages
           path: gh-pages
 
-      - name: Test marketplace action
-        uses: simple-elf/allure-report-action@master
-        if: always()
-        # id: allure-report
-        with:
-          allure_results: build/artifacts/allure/source
-          gh_pages: gh-pages
-          allure_report: build/artifacts/allure/report
-          allure_history: allure-history
+      # - name: Test marketplace action
+      #   uses: simple-elf/allure-report-action@master
+      #   if: always()
+      #   # id: allure-report
+      #   with:
+      #     allure_results: build/artifacts/allure/source
+      #     gh_pages: gh-pages
+      #     allure_report: build/artifacts/allure/report
+      #     allure_history: allure-history
 
-      - name: Deploy report to Github Pages
-        if: always()
-        uses: peaceiris/actions-gh-pages@v2
-        env:
-          PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PUBLISH_BRANCH: gh-pages
-          PUBLISH_DIR: artifacts
+      # - name: Deploy report to Github Pages
+      #   if: always()
+      #   uses: peaceiris/actions-gh-pages@v2
+      #   env:
+      #     PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     PUBLISH_BRANCH: gh-pages
+      #     PUBLISH_DIR: artifacts
       # - name: Test marketplace action
       #   uses: simple-elf/allure-report-action@master
       #   if: always()
@@ -95,7 +95,7 @@ jobs:
       #     allure_report: build/artifacts/allure/report
       #     allure_history: allure-history
 
-      # - name: Deploy 🚀  THIS WORK
-      #   uses: JamesIves/github-pages-deploy-action@v4
-      #   with:
-      #     folder: artifacts
+      - name: Deploy 🚀  THIS WORK
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: reports

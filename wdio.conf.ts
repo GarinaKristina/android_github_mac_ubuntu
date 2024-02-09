@@ -60,7 +60,7 @@ export const config: WebdriverIO.Config = {
     // [
     //   "allure",
     //   {
-    //     outputDir: "./artifacts/allure/source",
+    //     outputDir: "./artifacts/source",
     //     disableWebdriverStepsReporting: true,
     //     disableWebdriverScreenshotsReporting: false,
     //   },
@@ -68,7 +68,7 @@ export const config: WebdriverIO.Config = {
     [
       "html-nice",
       {
-        outputDir: "./reports/html-reports/",
+        outputDir: "./reports/",
         filename: "index.html",
         reportTitle: "Test Report Title",
         linkScreenshots: false,
@@ -77,7 +77,7 @@ export const config: WebdriverIO.Config = {
         collapseTests: false,
         reporterOptions: {
           html: {
-            outFile: "./reports/html-reports/**.html",
+            outFile: "./reports/html-reports/index.html",
           },
         },
       },
@@ -91,7 +91,7 @@ export const config: WebdriverIO.Config = {
   async onPrepare(config, capabilities) {
     console.log("onPrepare: Cleaning and setting up report aggregator...");
     reportAggregator = new ReportAggregator({
-      outputDir: "./reports/html-reports/",
+      outputDir: "./reports/",
       filename: "index.html",
       reportTitle: "Report",
       browserName: "Appium",
@@ -103,7 +103,7 @@ export const config: WebdriverIO.Config = {
 
   // async onComplete() {
   //   const reportError = new Error("Could not generate Allure report");
-  //   const generation = allure(["generate", "./artifacts/allure/source", "-c", "-o", "./artifacts/allure/report"]);
+  //   const generation = allure(["generate", "./artifacts/source", "-o", "./artifacts/report"]);
   //   return new Promise((resolve, reject) => {
   //     const generationTimeout = setTimeout(() => reject(reportError), 5000);
 

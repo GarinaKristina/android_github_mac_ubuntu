@@ -30,7 +30,10 @@ export const config: WebdriverIO.Config = {
     },
   ],
 
-  logLevel: 'warn',
+  logLevels: {
+    webdriver: 'warn',
+    '@wdio/appium-service': 'warn',
+  },
 
   bail: 0,
 

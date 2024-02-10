@@ -2,7 +2,7 @@ name: Automation tests
 
 on:
   pull_request:
-    branches: ["main"]
+    branches: ['main']
 
 permissions:
   contents: write
@@ -25,17 +25,17 @@ jobs:
       - name: Setup env
         uses: actions/setup-node@v4
         with:
-          node-version: ">=18.x"
+          node-version: '>=18.x'
 
       - uses: actions/setup-java@v4
         with:
-          distribution: "adopt-hotspot"
-          java-version: "17"
+          distribution: 'adopt-hotspot'
+          java-version: '17'
 
       - name: Clone repo with application
         uses: actions/checkout@v4
         with:
-          repository: "webdriverio/native-demo-app"
+          repository: 'webdriverio/native-demo-app'
           path: demo_app
 
       - name: Install application packages
@@ -107,4 +107,4 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4
         if: always()
         with:
-          folder: ./tests/reports
+          folder: tests/reports

@@ -103,6 +103,9 @@ jobs:
           npm run wdio
           ls
 
+      - name: Change to root directory
+        run: cd ${{ github.workspace }}
+
       - name: Deploy 🚀  THIS WORK
         uses: JamesIves/github-pages-deploy-action@v4
         if: always()

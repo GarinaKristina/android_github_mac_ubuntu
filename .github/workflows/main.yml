@@ -111,4 +111,4 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4
         if: always()
         with:
-          folder: tests/reports
+          folder: ./tests/reports

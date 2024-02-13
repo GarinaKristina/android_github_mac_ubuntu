@@ -107,19 +107,17 @@ jobs:
 
       - name: Launch emulator
         run: |
-          cd tests
           chmod +x ./start_emu_headless.sh
           EMULATOR_TIMEOUT=$EMULATOR_TIMEOUT EMULATOR_NAME=$EMULATOR_NAME ./start_emu_headless.sh
 
       - name: Run test
         run: |
-          cd tests
           npm run wdio
           ls
 
-      - name: Change to root directory
-        if: always()
-        run: cd ${{ github.workspace }}
+      # - name: Change to root directory
+      #   if: always()
+      #   run: cd ${{ github.workspace }}
 
       - name: Deploy 🚀  THIS WORK
         uses: JamesIves/github-pages-deploy-action@v4

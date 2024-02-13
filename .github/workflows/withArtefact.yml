@@ -95,7 +95,6 @@ jobs:
           appium -v
           appium-doctor
           npm run wdio
-          ls
 
       - name: Deploy 🚀  THIS WORK
         uses: JamesIves/github-pages-deploy-action@v4

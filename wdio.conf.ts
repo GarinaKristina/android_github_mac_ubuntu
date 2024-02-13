@@ -30,7 +30,6 @@ export const config: WebdriverIO.Config = {
       "appium:appWaitForLaunch": false,
       "appium:ignoreHiddenApiPolicyError": true,
       "appium:noReset": "true",
-      "appium:uiautomator2ServerInstallTimeout": 40000,
       "appium:uiautomator2ServerLaunchTimeout": 60000,
     },
   ],

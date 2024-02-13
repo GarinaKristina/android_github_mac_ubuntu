@@ -49,12 +49,6 @@ jobs:
           cd demo_app
           npm run "android.release"
 
-      # - name: where build apk
-      #   run: |
-      #     cd
-      #     cd /Users/runner/work/android_github_mac_ubuntu/android_github_mac_ubuntu/demo_app/android/app/build/outputs/apk/release/
-      #     ls
-
       - name: Archive data from first repo
         uses: actions/upload-artifact@v2
         with:
@@ -66,25 +60,12 @@ jobs:
         if: always()
         with:
           ref: actions
-          # path: tests
 
       - name: Install packages
         run: |
           ls
           # cd tests
           npm ci
-
-      # - name: Copy apk
-      #   run: |
-      #     # cd tests
-      #     ls
-      #     npm run "copy_ci_apk"
-
-      # - name: Where apk
-      #   run: |
-      #     cd
-      #     cd /Users/runner/work/android_github_mac_ubuntu/android_github_mac_ubuntu/tests/
-      #     ls
 
       - name: Download data from first repo
         uses: actions/download-artifact@v2
@@ -114,10 +95,6 @@ jobs:
         run: |
           npm run wdio
           ls
-
-      # - name: Change to root directory
-      #   if: always()
-      #   run: cd ${{ github.workspace }}
 
       - name: Deploy 🚀  THIS WORK
         uses: JamesIves/github-pages-deploy-action@v4

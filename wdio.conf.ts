@@ -30,6 +30,8 @@ export const config: WebdriverIO.Config = {
       "appium:appWaitForLaunch": false,
       "appium:ignoreHiddenApiPolicyError": true,
       "appium:noReset": "true",
+      "appium:uiautomator2ServerInstallTimeout": 40000,
+      "appium:uiautomator2ServerLaunchTimeout": 60000,
     },
   ],
 
@@ -94,18 +96,18 @@ export const config: WebdriverIO.Config = {
     ui: "bdd",
     timeout: 60000,
   },
-  // async onPrepare(config, capabilities) {
-  //   console.log("onPrepare: Cleaning and setting up report aggregator...");
-  //   reportAggregator = new ReportAggregator({
-  //     outputDir: "./reports/",
-  //     filename: "index.html",
-  //     reportTitle: "Report",
-  //     browserName: "Appium",
-  //     collapseTests: true,
-  //   });
-  //   await reportAggregator.clean();
-  //   console.log("onPrepare: Report aggregator setup complete.");
-  // },
+  async onPrepare(config, capabilities) {
+    console.log("onPrepare: Cleaning and setting up report aggregator...");
+    reportAggregator = new ReportAggregator({
+      outputDir: "./reports/",
+      filename: "index.html",
+      reportTitle: "Report",
+      browserName: "Appium",
+      collapseTests: true,
+    });
+    await reportAggregator.clean();
+    console.log("onPrepare: Report aggregator setup complete.");
+  },
 
   // async onComplete() {
   //   const reportError = new Error("Could not generate Allure report");

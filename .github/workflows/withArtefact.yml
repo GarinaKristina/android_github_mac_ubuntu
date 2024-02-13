@@ -92,8 +92,6 @@ jobs:
 
       - name: Run test
         run: |
-          appium -v
-          appium-doctor
           npm run wdio
 
       - name: Deploy 🚀  THIS WORK

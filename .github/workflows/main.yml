@@ -1,114 +1,114 @@
-name: Automation tests
+# name: Automation tests
 
-on:
-  pull_request:
-    branches: ["main"]
+# on:
+#   pull_request:
+#     branches: ["main"]
 
-permissions:
-  contents: write
-  issues: write
-  pull-requests: write
+# permissions:
+#   contents: write
+#   issues: write
+#   pull-requests: write
 
-env:
-  ANDROID_ARCH: x86_64
-  ANDROID_TARGET: google_apis_playstore
-  API_LEVEL: 33
-  ANDROID_BUILD_TOOLS_VERSION: 33.0.2
-  ANDROID_SDK_PACKAGES: system-images;android-33;google_apis_playstore;x86_64 platforms;android-33 build-tools;33.0.2 platform-tools emulator
-  EMULATOR_TIMEOUT: 350
-  EMULATOR_NAME: nexus
+# env:
+#   ANDROID_ARCH: x86_64
+#   ANDROID_TARGET: google_apis_playstore
+#   API_LEVEL: 33
+#   ANDROID_BUILD_TOOLS_VERSION: 33.0.2
+#   ANDROID_SDK_PACKAGES: system-images;android-33;google_apis_playstore;x86_64 platforms;android-33 build-tools;33.0.2 platform-tools emulator
+#   EMULATOR_TIMEOUT: 350
+#   EMULATOR_NAME: nexus
 
-jobs:
-  test:
-    runs-on: macos-13
-    steps:
-      - name: Setup env
-        uses: actions/setup-node@v4
-        with:
-          node-version: ">=18.x"
+# jobs:
+#   test:
+#     runs-on: macos-13
+#     steps:
+#       - name: Setup env
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: ">=18.x"
 
-      - uses: actions/setup-java@v4
-        with:
-          distribution: "adopt-hotspot"
-          java-version: "17"
+#       - uses: actions/setup-java@v4
+#         with:
+#           distribution: "adopt-hotspot"
+#           java-version: "17"
 
-      - name: Clone repo with application
-        uses: actions/checkout@v4
-        with:
-          repository: "webdriverio/native-demo-app"
-          path: demo_app
+#       - name: Clone repo with application
+#         uses: actions/checkout@v4
+#         with:
+#           repository: "webdriverio/native-demo-app"
+#           path: demo_app
 
-      - name: Install application packages
-        run: |
-          cd demo_app
-          ls
-          npm install
+#       - name: Install application packages
+#         run: |
+#           cd demo_app
+#           ls
+#           npm install
 
-      - name: Build apk
-        run: |
-          cd demo_app
-          npm run "android.release"
+#       - name: Build apk
+#         run: |
+#           cd demo_app
+#           npm run "android.release"
 
-      # - name: where build apk
-      #   run: |
-      #     cd
-      #     cd /Users/runner/work/android_github_mac_ubuntu/android_github_mac_ubuntu/demo_app/android/app/build/outputs/apk/release/
-      #     ls
+#       # - name: where build apk
+#       #   run: |
+#       #     cd
+#       #     cd /Users/runner/work/android_github_mac_ubuntu/android_github_mac_ubuntu/demo_app/android/app/build/outputs/apk/release/
+#       #     ls
 
-      - name: Cloning automation tests
-        uses: actions/checkout@v4
-        if: always()
-        with:
-          ref: actions
-          path: tests
+#       - name: Cloning automation tests
+#         uses: actions/checkout@v4
+#         if: always()
+#         with:
+#           ref: actions
+#           path: tests
 
-      - name: Install packages
-        run: |
-          cd tests
-          npm ci
+#       - name: Install packages
+#         run: |
+#           cd tests
+#           npm ci
 
-      - name: Copy apk
-        run: |
-          cd tests
-          npm run "copy_ci_apk"
+#       - name: Copy apk
+#         run: |
+#           cd tests
+#           npm run "copy_ci_apk"
 
-      # - name: Where apk
-      #   run: |
-      #     cd
-      #     cd /Users/runner/work/android_github_mac_ubuntu/android_github_mac_ubuntu/tests/
-      #     ls
+#       # - name: Where apk
+#       #   run: |
+#       #     cd
+#       #     cd /Users/runner/work/android_github_mac_ubuntu/android_github_mac_ubuntu/tests/
+#       #     ls
 
-      - name: Add avdmanager and sdkmanager to system PATH
-        run: |
-          echo "$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$ANDROID_HOME/build-tools/${{ env.ANDROID_BUILD_TOOLS_VERSION }}" >> $GITHUB_PATH
+#       - name: Add avdmanager and sdkmanager to system PATH
+#         run: |
+#           echo "$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$ANDROID_HOME/build-tools/${{ env.ANDROID_BUILD_TOOLS_VERSION }}" >> $GITHUB_PATH
 
-      - name: Install Sdk
-        run: |
-          yes Y | sdkmanager --licenses
-          sdkmanager --install ${ANDROID_SDK_PACKAGES}
+#       - name: Install Sdk
+#         run: |
+#           yes Y | sdkmanager --licenses
+#           sdkmanager --install ${ANDROID_SDK_PACKAGES}
 
-      - name: Build emulator
-        run: |
-          echo "no" | avdmanager --verbose create avd --force -n $EMULATOR_NAME --abi "${ANDROID_TARGET}/${ANDROID_ARCH}" -k "system-images;android-${API_LEVEL};${ANDROID_TARGET};${ANDROID_ARCH}"
+#       - name: Build emulator
+#         run: |
+#           echo "no" | avdmanager --verbose create avd --force -n $EMULATOR_NAME --abi "${ANDROID_TARGET}/${ANDROID_ARCH}" -k "system-images;android-${API_LEVEL};${ANDROID_TARGET};${ANDROID_ARCH}"
 
-      - name: Launch emulator
-        run: |
-          cd tests
-          chmod +x ./start_emu_headless.sh
-          EMULATOR_TIMEOUT=$EMULATOR_TIMEOUT EMULATOR_NAME=$EMULATOR_NAME ./start_emu_headless.sh
+#       - name: Launch emulator
+#         run: |
+#           cd tests
+#           chmod +x ./start_emu_headless.sh
+#           EMULATOR_TIMEOUT=$EMULATOR_TIMEOUT EMULATOR_NAME=$EMULATOR_NAME ./start_emu_headless.sh
 
-      - name: Run test
-        run: |
-          cd tests
-          npm run wdio
-          ls
+#       - name: Run test
+#         run: |
+#           cd tests
+#           npm run wdio
+#           ls
 
-      - name: Change to root directory
-        if: always()
-        run: cd ${{ github.workspace }}
+#       - name: Change to root directory
+#         if: always()
+#         run: cd ${{ github.workspace }}
 
-      - name: Deploy 🚀  THIS WORK
-        uses: JamesIves/github-pages-deploy-action@v4
-        if: always()
-        with:
-          folder: ./tests/
+#       - name: Deploy 🚀  THIS WORK
+#         uses: JamesIves/github-pages-deploy-action@v4
+#         if: always()
+#         with:
+#           folder: ./tests/reports

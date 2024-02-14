@@ -24,6 +24,7 @@ jobs:
       - name: Install and Run Appium Server
         run: |
           npm i --location=global appium
+          npm install @appium/doctor -g
           appium driver install uiautomator2
           appium-doctor
           appium -v

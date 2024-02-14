@@ -70,7 +70,6 @@ jobs:
         run: |
           npm i --location=global appium
           npm install @appium/doctor -g
-          appium driver install uiautomator2
 
       - name: Download data from first repo
         uses: actions/download-artifact@v2

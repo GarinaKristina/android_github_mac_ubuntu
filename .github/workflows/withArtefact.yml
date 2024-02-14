@@ -1,8 +1,8 @@
 name: Automation tests
 
-# on:
-#   pull_request:
-#     branches: ["main"]
+on:
+  pull_request:
+    branches: ["main"]
 
 permissions:
   contents: write
@@ -65,6 +65,12 @@ jobs:
         run: |
           ls
           npm ci
+
+      - name: Install and Run Appium Server
+        run: |
+          npm i --location=global appium
+          npm install @appium/doctor -g
+          appium driver install uiautomator2
 
       - name: Download data from first repo
         uses: actions/download-artifact@v2

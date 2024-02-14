@@ -1,8 +1,9 @@
-import HomePage from '../pageobjects/HomePage.js';
-import Actions from '../helpers/Actions.js';
+import HomePage from "../pageobjects/HomePage.js";
+import Actions from "../helpers/Actions.js";
 
-describe('My Login application', () => {
-  it('should login with valid credentials', async () => {
+describe("My Login application", () => {
+  it("should login with valid credentials", async () => {
+    console.log("-------------", await browser.getPageSource());
     await Actions.clickButton(HomePage.webButton);
   });
 });

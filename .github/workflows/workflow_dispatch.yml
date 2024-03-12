@@ -9,8 +9,8 @@ on:
         default: "Kris"
         type: choice
         options:
-          - Artem
-          - Edgar
+          - Sergei
+          - Vadim
           - Kris
 
 jobs:
@@ -18,52 +18,61 @@ jobs:
     runs-on: macos-13
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
 
-    - name: Setup Android SDK
-      uses: android-actions/setup-android@v2
+      - name: Install and Run Appium Server
+        run: |
+          npm i --location=global appium
+          npm install @appium/doctor -g
+          appium driver install uiautomator2
+          appium-doctor
+          appium -v
+      #   uses: actions/checkout@v4
+      # - name: Setup Android SDK
+      #   uses: android-actions/setup-android@v2
 
-    - name: Create and start emulator
-      run: |
-           echo "y" | sdkmanager "platforms;android-30" "system-images;android-30;google_apis;x86_64"
-           echo "no" | avdmanager create avd --force --name nightwatch-android-11 --device "pixel_xl" --package "system-images;android-30;google_apis;x86_64" --abi "x86_64"
-           $ANDROID_HOME/emulator/emulator -avd nightwatch-android-11 -no-audio -no-window -no-snapshot -accel on &
+      # - name: Create and start emulator
+      #   run: |
+      #     echo "y" | sdkmanager "platforms;android-30" "system-images;android-30;google_apis;x86_64"
+      #     echo "no" | avdmanager create avd --force --name nightwatch-android-11 --device "pixel_xl" --package "system-images;android-30;google_apis;x86_64" --abi "x86_64"
+      #     $ANDROID_HOME/emulator/emulator -avd nightwatch-android-11 -no-audio -no-window -no-snapshot -accel on &
 
-    - name: Wait for emulator to start
-      run: |
-        until adb shell getprop sys.boot_completed | grep 1; do sleep 1; done
-        adb shell input keyevent 82
+      # - name: Wait for emulator to start
+      #   run: |
+      #     until adb shell getprop sys.boot_completed | grep 1; do sleep 1; done
+      #     adb shell input keyevent 82
 
-    - name: Checkout Pet project
-      uses: actions/checkout@v4
+      # - name: Checkout Pet project
+      #   uses: actions/checkout@v4
 
-    - name: Install packages
-      run: |
-          npm ci
+      # - name: Install packages
+      #   run: |
+      #     npm ci
 
-    - name: Run succeed test
-      run: |
-          npm run wdio
+      # - name: Run succeed test
+      #   run: |
+      #     npm run wdio
 
-    - name: Archive reports
-      uses: actions/upload-artifact@v2
-      with:
-          name: reports
-          path: reports
+      # - name: Archive reports
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: reports
+      #     path: reports
 
-    - name: Create Archives
-      run: |
-          zip -r reports.zip reports
+      # - name: Create Archives
+      #   run: |
+      #     zip -r reports.zip reports
 
-    - name: Send email
-      uses: devellany/send-mail@v1.0.2
-      with:
-          host: "smtp.mail.ru"
-          account: ${{secrets.USER_EMAIL}}
-          password: ${{secrets.USER_PASSWORD}}
-          sender: "Kristina Orbacaite"
-          from: ${{secrets.USER_EMAIL}}
-          subject: Attached are the Allure artifacts
-          body: "Report after running test by ${{ github.event.inputs.owner }}✔"
-          attachments: '[{"path":reports.zip"}'
-          to: ${{secrets.USER_EMAIL}}
-
+      # - name: Send email
+      #   uses: devellany/send-mail@v1.0.2
+      #   with:
+      #     host: "smtp.mail.ru"
+      #     account: ${{secrets.USER_EMAIL}}
+      #     password: ${{secrets.USER_PASSWORD}}
+      #     sender: "Kristina Orbacaite"
+      #     from: ${{secrets.USER_EMAIL}}
+      #     subject: Attached are the Allure artifacts
+      #     body: "Report after running test by ${{ github.event.inputs.owner }}✔"
+      #     attachments: '[{"path":reports.zip"}'
+      #     to: ${{secrets.USER_EMAIL}}

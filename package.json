@@ -3,21 +3,30 @@
   "type": "module",
   "scripts": {
     "wdio": "wdio run ./wdio.conf.ts",
-    "create:allure": "allure generate ./artifacts/allure/source -c -o ./artifacts/allure/report && allure open ./artifacts/allure/report",
-    "copy_apk": "bash copyApk.sh"
+    "create:allure": "allure generate ./artifacts/allure/source -o ./artifacts/allure/report && allure open ./artifacts/allure/report",
+    "create:open:allure": "allure generate ./artifacts/allure/source -c -o ./artifacts/allure/report && allure open ./artifacts/allure/report",
+    "copy_apk": "bash copyApk.sh",
+    "copy_ci_apk": "bash copyApkActions.sh"
   },
   "devDependencies": {
+    "@types/mocha": "^10.0.6",
     "@wdio/allure-reporter": "^8.29.3",
     "@wdio/appium-service": "^8.29.4",
-    "@wdio/cli": "^8.29.3",
+    "@wdio/cli": "^8.29.5",
     "@wdio/local-runner": "^8.29.5",
     "@wdio/mocha-framework": "^8.29.3",
     "@wdio/spec-reporter": "^8.29.3",
     "allure-commandline": "^2.27.0",
     "appium": "^2.4.1",
     "appium-uiautomator2-driver": "^2.43.4",
+    "dotenv": "^16.4.1",
+    "mocha": "^10.2.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "@rpii/wdio-html-reporter-pdf": "^8.0.0",
+    "wdio-html-nice-reporter": "^8.1.4",
+    "wdio-html-reporter": "^1.0.2"
   }
 }
-
